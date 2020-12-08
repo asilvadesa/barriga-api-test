@@ -89,7 +89,6 @@ public class BarrigaTest extends BaseTest {
 
         Movimentacao mov = new Movimentacao();
         mov.setConta_id(344272);
-        //mov.setUsuario_id(usuario_id);
         mov.setDescricao("Descricao da movimentacao");
         mov.setEnvolvido("Envolvido da mov");
         mov.setTipo("REC");
@@ -98,7 +97,6 @@ public class BarrigaTest extends BaseTest {
         mov.setValor(100f);
         mov.setStatus(true)
         ;
-
 
         given()
                 .header("Authorization", "JWT " + TOKEN)
@@ -109,4 +107,27 @@ public class BarrigaTest extends BaseTest {
                 .statusCode(201);
     }
 
+    @Test
+    public void deveValidarCamposObrigatoriosMovimentacao(){
+
+        given()
+                .header("Authorization", "JWT " + TOKEN)
+                .body("{}")
+        .when()
+                .post("/transacoes")
+        .then()
+                .log().all()
+                .statusCode(400)
+                .body("$", hasSize(8))
+                .body("msg", hasItems(
+                        "Data da Movimentação é obrigatório",
+                        "Data do pagamento é obrigatório",
+                        "Descrição é obrigatório",
+                        "Interessado é obrigatório",
+                        "Valor é obrigatório",
+                        "Valor deve ser um número",
+                        "Conta é obrigatório",
+                        "Situação é obrigatório"
+                        ));
+    }
 }

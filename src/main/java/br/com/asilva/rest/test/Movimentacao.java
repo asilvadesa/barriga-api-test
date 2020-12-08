@@ -1,7 +1,5 @@
 package br.com.asilva.rest.test;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 public class Movimentacao {
 
     private Integer id;
