@@ -165,6 +165,19 @@ public class BarrigaTest extends BaseTest {
         ;
     }
 
+    @Test
+    public void deveExcluirMovimentacaoComSucesso(){
+
+        given()
+                .header("Authorization", "JWT " + TOKEN)
+        .when()
+                .delete("/transacoes/313048")
+        .then()
+                .log().all()
+                .statusCode(204)
+        ;
+    }
+
     private Movimentacao getMovimentacao() {
         Movimentacao mov = new Movimentacao();
         mov.setConta_id(344272);
@@ -179,3 +192,5 @@ public class BarrigaTest extends BaseTest {
         return mov;
     }
 }
+
+// 313048
