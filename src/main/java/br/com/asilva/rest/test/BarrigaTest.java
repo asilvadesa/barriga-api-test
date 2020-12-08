@@ -70,7 +70,7 @@ public class BarrigaTest extends BaseTest {
     }
 
     @Test
-    public void naoDeveInserieContaComMesmoNome(){
+    public void naoDeveInserirContaComMesmoNome(){
 
         Map<String,String> conta = new HashMap<String, String>();
         conta.put("nome", "CONTA ALTERADA");
@@ -82,6 +82,31 @@ public class BarrigaTest extends BaseTest {
         .then()
                 .statusCode(400)
                 .body("error", is("Já existe uma conta com esse nome!"));
+    }
+
+    @Test
+    public void deveInserirMovimentacaoSucesso(){
+
+        Movimentacao mov = new Movimentacao();
+        mov.setConta_id(344272);
+        //mov.setUsuario_id(usuario_id);
+        mov.setDescricao("Descricao da movimentacao");
+        mov.setEnvolvido("Envolvido da mov");
+        mov.setTipo("REC");
+        mov.setData_transacao("01/01/2020");
+        mov.setData_pagamento("10/05/2020");
+        mov.setValor(100f);
+        mov.setStatus(true)
+        ;
+
+
+        given()
+                .header("Authorization", "JWT " + TOKEN)
+                .body(mov)
+        .when()
+                .post("/transacoes")
+        .then()
+                .statusCode(201);
     }
 
 }
